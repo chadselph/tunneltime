@@ -1,46 +1,17 @@
+package me.chadrs.tunneltime
+
 import scala.collection.mutable
 import com.jcraft.jsch.{Session, JSch, UserInfo}
 import org.slf4j.LoggerFactory
 import java.net.InetSocketAddress
 import scala.util.Try
 
-object TunnelTime {
+
+object Tunnel {
 
   val CONNECT_TIMEOUT = 10 * 1000
   private val jsch = new JSch()
   private val logger = LoggerFactory.getLogger(getClass)
-
-  /**
-   * Base class for authentication strategies
-   * @param user Username
-   */
-  sealed abstract class Authentication(val user: String)
-
-  /**
-   * Authentication with a `keyFile` (like ~/.ssh/id_rsa)
-   * @param user Username
-   * @param keyFile Path to identity file
-   * @param passphrase Passphrase on the identify file, or None if no passphrase.
-   */
-  case class KeyAuthentication (override val user: String, keyFile: String = ".ssh/id_rsa", passphrase: Option[String] = None) extends Authentication(user)
-
-  /**
-   * Password based authentication (not recommended)
-   * @param user Username
-   * @param password Your password. To avoid having passwords in source code, consider using
-   *                 [[TunnelTime.KeyAuthentication]].
-   */
-  case class PasswordAuthentication (override val user: String, password: String) extends Authentication(user)
-
-  /**
-   * TunnelHosts represent hosts you can connect to over ssh.
-   * @param auth How you authenticate to this host
-   * @param hostname Hostname
-   * @param publicKeySignature Hosts signature. You should probably set this to prevent
-   *                           man-in-the-middle attacks.
-   * @param port Port ssh is listening on (probably 22)
-   */
-  case class TunnelHost(auth: Authentication, hostname: String, publicKeySignature: Option[String] = None, port: Int = 22)
 
   private def makeSession (th: TunnelHost) = {
     val session = jsch.getSession(th.auth.user, th.hostname, th.port)
@@ -178,5 +149,3 @@ object TunnelTime {
     }
   }
 }
-
-// vim: set ts=2 sw=2 et:
