@@ -16,10 +16,10 @@ Consult the sshd man page for more options.
 Then, with some commands like this:
 
 ```scala
-  import TunnelTime.{KeyAuthentication, TunnelHost, tunnelRemoteAddrToLocalPort}
+  import me.chadrs.tunneltime.{KeyAuthentication, TunnelHost, Tunnel}
   val myauth = KeyAuthentication("chad", "/Users/chadrs/.ssh/tunneling_id_rsa")
   val host = TunnelHost(myauth, "host.to.tunnel.through"),
-  tunnelRemoteAddrToLocalPort(host, "example.org", 80, 10080)
+  Tunnel.tunnelRemoteAddrToLocalPort(host, "example.org", 80, 10080)
 ```
 
 You should now be able to open a connection to "example.com" on port 80
