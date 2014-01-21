@@ -69,7 +69,7 @@ object Tunnel {
    * Convinence function for using InetSocketAddress instead of separate host and port params.
    */
   def tunnelRemoteAddrToLocalPort(tunnelHost: TunnelHost, rAddress: InetSocketAddress): Int =
-    tunnelRemoteAddrToLocalPort(tunnelHost, rAddress.getHostName, rAddress.getPort, 22)
+    tunnelRemoteAddrToLocalPort(tunnelHost, rAddress.getHostName, rAddress.getPort, 0)
   /**
    * Convinence function for using InetSocketAddress instead of separate host and port params.
    */
